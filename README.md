@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StagePass — HitPay Embedded Payments Demo
 
-## Getting Started
+A demo event ticketing app that showcases two HitPay payment features for one-time payments:
 
-First, run the development server:
+- **Embedded QR** (`generate_qr`): The QR code is rendered directly inside your own checkout UI — no redirect to HitPay's hosted page.
+- **Direct Link** (`generate_direct_link`): A one-tap redirect to the provider's payment page (GrabPay, Touch 'n Go, ZaloPay, GCash) with optional app deep link.
+
+## Prerequisites
+
+- Node.js 18+
+- HitPay sandbox API keys (one per market)
+
+## Setup
+
+```bash
+git clone <repo-url>
+cd hitpay-event-ticketing-demo
+npm install
+cp .env.local.example .env.local
+```
+
+Edit `.env.local` and fill in your HitPay sandbox API keys.
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The header has a **Sandbox / Production** toggle — use it to switch between environments without restarting the server.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Currency → API key mapping
 
-## Learn More
+| Currency | API key | Payment methods |
+|---|---|---|
+| SGD | `HITPAY_API_KEY_SG` | PayNow, ShopeePay, GrabPay, GrabPay PayLater, UPI, WeChatPay, Atome, ShopBack (QR) · GrabPay, TNG cross-border, ZaloPay cross-border (Direct Link) |
+| MYR | `HITPAY_API_KEY_MY` | ShopeePay, GrabPay, GrabPay PayLater, DuitNow, Touch 'n Go, Atome (QR) · GrabPay, Touch 'n Go (Direct Link) |
+| PHP | `HITPAY_API_KEY_PH` | GrabPay, GCash, QRPH (QR) · GrabPay, GCash (Direct Link) |
+| VND | `HITPAY_API_KEY_SG` | VietQR, ZaloPay (QR) · ZaloPay (Direct Link) |
+| IDR | `HITPAY_API_KEY_ID` | QRIS (QR only) |
+| THB | `HITPAY_API_KEY_TH` | PromptPay, TrueMoney (QR only) |
 
-To learn more about Next.js, take a look at the following resources:
+## API reference
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Embedded QR payments](https://docs.hitpayapp.com/apis/guide/embedded-qr-code-payments/domestic-qr)
+- [Payment Request API](https://docs.hitpayapp.com/apis/api-reference/payment-requests)

@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e0533"/>
+      <stop offset="50%" stop-color="#2d1b69"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="30%" cy="40%" r="40%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="75%" cy="65%" r="40%">
+      <stop offset="0%" stop-color="#ec4899" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#ec4899" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow3" cx="55%" cy="30%" r="30%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="300" fill="url(#bg)"/>
+  <rect width="600" height="300" fill="url(#glow1)"/>
+  <rect width="600" height="300" fill="url(#glow2)"/>
+  <rect width="600" height="300" fill="url(#glow3)"/>
+
+  <!-- Abstract geometric shapes — back layer -->
+  <!-- Large transparent triangle -->
+  <polygon points="50,280 200,40 350,280" fill="none" stroke="#a855f7" stroke-width="1" opacity="0.3"/>
+  <polygon points="250,270 420,30 580,270" fill="none" stroke="#ec4899" stroke-width="1" opacity="0.25"/>
+
+  <!-- Rotating squares -->
+  <rect x="80" y="60" width="90" height="90" rx="4" fill="none" stroke="#c084fc" stroke-width="1.5" opacity="0.4" transform="rotate(15,125,105)"/>
+  <rect x="92" y="72" width="66" height="66" rx="3" fill="#a855f7" opacity="0.08" transform="rotate(15,125,105)"/>
+
+  <rect x="420" y="100" width="110" height="110" rx="4" fill="none" stroke="#f472b6" stroke-width="1.5" opacity="0.35" transform="rotate(-20,475,155)"/>
+  <rect x="434" y="114" width="82" height="82" rx="3" fill="#ec4899" opacity="0.07" transform="rotate(-20,475,155)"/>
+
+  <!-- Floating orbs -->
+  <circle cx="145" cy="125" r="50" fill="#7c3aed" opacity="0.18"/>
+  <circle cx="145" cy="125" r="35" fill="#a855f7" opacity="0.22"/>
+  <circle cx="145" cy="125" r="20" fill="#c084fc" opacity="0.35"/>
+  <circle cx="145" cy="125" r="8" fill="#e9d5ff" opacity="0.8"/>
+
+  <circle cx="440" cy="170" r="60" fill="#be185d" opacity="0.15"/>
+  <circle cx="440" cy="170" r="42" fill="#ec4899" opacity="0.2"/>
+  <circle cx="440" cy="170" r="24" fill="#f9a8d4" opacity="0.3"/>
+  <circle cx="440" cy="170" r="9" fill="#fce7f3" opacity="0.85"/>
+
+  <circle cx="310" cy="70" r="35" fill="#0e7490" opacity="0.2"/>
+  <circle cx="310" cy="70" r="22" fill="#06b6d4" opacity="0.3"/>
+  <circle cx="310" cy="70" r="10" fill="#cffafe" opacity="0.7"/>
+
+  <!-- Connecting lines between orbs -->
+  <line x1="145" y1="125" x2="310" y2="70" stroke="#c084fc" stroke-width="0.8" opacity="0.25"/>
+  <line x1="310" y1="70" x2="440" y2="170" stroke="#67e8f9" stroke-width="0.8" opacity="0.25"/>
+  <line x1="145" y1="125" x2="440" y2="170" stroke="#f9a8d4" stroke-width="0.8" opacity="0.2"/>
+
+  <!-- Scattered small shapes -->
+  <polygon points="530,50 545,78 515,78" fill="#a855f7" opacity="0.4"/>
+  <polygon points="55,200 68,222 42,222" fill="#06b6d4" opacity="0.35"/>
+  <polygon points="370,245 382,268 358,268" fill="#ec4899" opacity="0.35"/>
+
+  <!-- Diamond shapes -->
+  <polygon points="500,120 515,145 500,170 485,145" fill="none" stroke="#f472b6" stroke-width="1.5" opacity="0.5"/>
+  <polygon points="500,128 512,145 500,162 488,145" fill="#ec4899" opacity="0.12"/>
+
+  <polygon points="75,155 88,178 75,201 62,178" fill="none" stroke="#a855f7" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Pixel art / canvas in center -->
+  <rect x="222" y="110" width="156" height="110" rx="6" fill="#0f172a" opacity="0.7" stroke="#7c3aed" stroke-width="1.5"/>
+  <!-- Canvas content — abstract colorful pixels -->
+  <g opacity="0.85">
+    <rect x="234" y="122" width="14" height="14" fill="#a855f7"/>
+    <rect x="250" y="122" width="14" height="14" fill="#ec4899"/>
+    <rect x="266" y="122" width="14" height="14" fill="#06b6d4"/>
+    <rect x="282" y="122" width="14" height="14" fill="#a855f7"/>
+    <rect x="298" y="122" width="14" height="14" fill="#ec4899"/>
+    <rect x="314" y="122" width="14" height="14" fill="#818cf8"/>
+    <rect x="330" y="122" width="14" height="14" fill="#06b6d4"/>
+    <rect x="346" y="122" width="14" height="14" fill="#a855f7"/>
+
+    <rect x="234" y="138" width="14" height="14" fill="#818cf8"/>
+    <rect x="250" y="138" width="14" height="14" fill="#a855f7"/>
+    <rect x="266" y="138" width="14" height="14" fill="#ec4899"/>
+    <rect x="282" y="138" width="14" height="14" fill="#34d399"/>
+    <rect x="298" y="138" width="14" height="14" fill="#f59e0b"/>
+    <rect x="314" y="138" width="14" height="14" fill="#ec4899"/>
+    <rect x="330" y="138" width="14" height="14" fill="#a855f7"/>
+    <rect x="346" y="138" width="14" height="14" fill="#818cf8"/>
+
+    <rect x="234" y="154" width="14" height="14" fill="#06b6d4"/>
+    <rect x="250" y="154" width="14" height="14" fill="#34d399"/>
+    <rect x="266" y="154" width="14" height="14" fill="#f59e0b"/>
+    <rect x="282" y="154" width="14" height="14" fill="#ec4899"/>
+    <rect x="298" y="154" width="14" height="14" fill="#a855f7"/>
+    <rect x="314" y="154" width="14" height="14" fill="#06b6d4"/>
+    <rect x="330" y="154" width="14" height="14" fill="#34d399"/>
+    <rect x="346" y="154" width="14" height="14" fill="#f59e0b"/>
+
+    <rect x="234" y="170" width="14" height="14" fill="#f59e0b"/>
+    <rect x="250" y="170" width="14" height="14" fill="#06b6d4"/>
+    <rect x="266" y="170" width="14" height="14" fill="#818cf8"/>
+    <rect x="282" y="170" width="14" height="14" fill="#34d399"/>
+    <rect x="298" y="170" width="14" height="14" fill="#06b6d4"/>
+    <rect x="314" y="170" width="14" height="14" fill="#f59e0b"/>
+    <rect x="330" y="170" width="14" height="14" fill="#ec4899"/>
+    <rect x="346" y="170" width="14" height="14" fill="#a855f7"/>
+
+    <rect x="234" y="186" width="14" height="14" fill="#ec4899"/>
+    <rect x="250" y="186" width="14" height="14" fill="#818cf8"/>
+    <rect x="266" y="186" width="14" height="14" fill="#a855f7"/>
+    <rect x="282" y="186" width="14" height="14" fill="#06b6d4"/>
+    <rect x="298" y="186" width="14" height="14" fill="#34d399"/>
+    <rect x="314" y="186" width="14" height="14" fill="#818cf8"/>
+    <rect x="330" y="186" width="14" height="14" fill="#f59e0b"/>
+    <rect x="346" y="186" width="14" height="14" fill="#06b6d4"/>
+  </g>
+  <!-- Canvas frame overlay gloss -->
+  <rect x="222" y="110" width="156" height="20" rx="6" fill="white" opacity="0.04"/>
+
+  <!-- Paint brush -->
+  <g transform="translate(340,90) rotate(35)">
+    <rect x="-3" y="-40" width="6" height="55" rx="2" fill="#d1d5db" opacity="0.9"/>
+    <polygon points="-3,-40 3,-40 1.5,-55 -1.5,-55" fill="#fbbf24" opacity="0.9"/>
+    <ellipse cx="0" cy="16" rx="4" ry="6" fill="#7c3aed" opacity="0.9"/>
+  </g>
+
+  <!-- Scattered sparkles -->
+  <g fill="#e9d5ff" opacity="0.8">
+    <polygon points="555,60 558,70 568,70 560,76 563,86 555,80 547,86 550,76 542,70 552,70" transform="scale(0.6) translate(370,50)"/>
+    <polygon points="100,40 102,47 109,47 103,51 105,58 100,54 95,58 97,51 91,47 98,47" transform="scale(0.5) translate(100,30)"/>
+  </g>
+  <g fill="#f9a8d4" opacity="0.7">
+    <polygon points="555,60 558,70 568,70 560,76 563,86 555,80 547,86 550,76 542,70 552,70" transform="scale(0.45) translate(800,150)"/>
+  </g>
+
+  <!-- Particle dots -->
+  <g fill="#c084fc" opacity="0.6">
+    <circle cx="195" cy="55" r="2.5"/>
+    <circle cx="380" cy="85" r="2"/>
+    <circle cx="490" cy="240" r="2.5"/>
+    <circle cx="105" cy="250" r="2"/>
+    <circle cx="565" cy="185" r="2.5"/>
+    <circle cx="30" cy="130" r="2"/>
+  </g>
+  <g fill="#67e8f9" opacity="0.5">
+    <circle cx="550" cy="230" r="2"/>
+    <circle cx="60" cy="85" r="2.5"/>
+    <circle cx="415" cy="50" r="2"/>
+    <circle cx="175" cy="245" r="2.5"/>
+  </g>
+</svg>

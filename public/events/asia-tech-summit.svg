@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e3a5f"/>
+    </linearGradient>
+    <linearGradient id="circuit-glow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#3b82f6" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow-filter">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="300" fill="url(#bg)"/>
+
+  <!-- Grid lines -->
+  <g stroke="#1e40af" stroke-width="0.5" opacity="0.3">
+    <line x1="0" y1="50" x2="600" y2="50"/>
+    <line x1="0" y1="100" x2="600" y2="100"/>
+    <line x1="0" y1="150" x2="600" y2="150"/>
+    <line x1="0" y1="200" x2="600" y2="200"/>
+    <line x1="0" y1="250" x2="600" y2="250"/>
+    <line x1="100" y1="0" x2="100" y2="300"/>
+    <line x1="200" y1="0" x2="200" y2="300"/>
+    <line x1="300" y1="0" x2="300" y2="300"/>
+    <line x1="400" y1="0" x2="400" y2="300"/>
+    <line x1="500" y1="0" x2="500" y2="300"/>
+  </g>
+
+  <!-- Circuit traces - left side -->
+  <g stroke="#3b82f6" stroke-width="1.5" fill="none" opacity="0.6">
+    <polyline points="0,80 60,80 60,120 120,120"/>
+    <polyline points="0,180 40,180 40,140 100,140 100,100 160,100"/>
+    <polyline points="30,250 30,220 80,220 80,190 140,190"/>
+    <polyline points="0,40 90,40 90,70 150,70"/>
+  </g>
+
+  <!-- Circuit traces - right side -->
+  <g stroke="#60a5fa" stroke-width="1.5" fill="none" opacity="0.6">
+    <polyline points="600,60 540,60 540,110 480,110"/>
+    <polyline points="600,160 560,160 560,130 500,130 500,90 440,90"/>
+    <polyline points="600,230 550,230 550,200 490,200 490,170 430,170"/>
+    <polyline points="580,280 580,250 520,250 520,220 460,220"/>
+  </g>
+
+  <!-- Circuit nodes -->
+  <g fill="#60a5fa" opacity="0.8">
+    <circle cx="60" cy="80" r="3.5"/>
+    <circle cx="60" cy="120" r="3.5"/>
+    <circle cx="40" cy="180" r="3.5"/>
+    <circle cx="40" cy="140" r="3.5"/>
+    <circle cx="100" cy="140" r="3.5"/>
+    <circle cx="30" cy="220" r="3.5"/>
+    <circle cx="80" cy="220" r="3.5"/>
+    <circle cx="80" cy="190" r="3.5"/>
+    <circle cx="540" cy="60" r="3.5"/>
+    <circle cx="540" cy="110" r="3.5"/>
+    <circle cx="560" cy="160" r="3.5"/>
+    <circle cx="560" cy="130" r="3.5"/>
+    <circle cx="500" cy="130" r="3.5"/>
+    <circle cx="550" cy="230" r="3.5"/>
+    <circle cx="550" cy="200" r="3.5"/>
+    <circle cx="490" cy="200" r="3.5"/>
+  </g>
+
+  <!-- Central holographic globe -->
+  <circle cx="300" cy="150" r="70" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.3"/>
+  <circle cx="300" cy="150" r="70" fill="#1e3a8a" opacity="0.2"/>
+
+  <!-- Globe latitude lines -->
+  <g stroke="#3b82f6" stroke-width="0.8" fill="none" opacity="0.4">
+    <ellipse cx="300" cy="150" rx="70" ry="20"/>
+    <ellipse cx="300" cy="150" rx="70" ry="40"/>
+    <ellipse cx="300" cy="150" rx="70" ry="55"/>
+    <line x1="300" y1="80" x2="300" y2="220"/>
+    <line x1="230" y1="80" x2="370" y2="220"/>
+    <line x1="370" y1="80" x2="230" y2="220"/>
+  </g>
+
+  <!-- Globe outer ring -->
+  <circle cx="300" cy="150" r="72" fill="none" stroke="#60a5fa" stroke-width="1.5" opacity="0.6"/>
+
+  <!-- Center chip -->
+  <rect x="272" y="122" width="56" height="56" rx="4" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+  <!-- Chip pins -->
+  <g stroke="#3b82f6" stroke-width="1.5" opacity="0.8">
+    <line x1="280" y1="122" x2="280" y2="114"/>
+    <line x1="292" y1="122" x2="292" y2="114"/>
+    <line x1="304" y1="122" x2="304" y2="114"/>
+    <line x1="316" y1="122" x2="316" y2="114"/>
+    <line x1="280" y1="178" x2="280" y2="186"/>
+    <line x1="292" y1="178" x2="292" y2="186"/>
+    <line x1="304" y1="178" x2="304" y2="186"/>
+    <line x1="316" y1="178" x2="316" y2="186"/>
+    <line x1="272" y1="134" x2="264" y2="134"/>
+    <line x1="272" y1="146" x2="264" y2="146"/>
+    <line x1="272" y1="158" x2="264" y2="158"/>
+    <line x1="328" y1="134" x2="336" y2="134"/>
+    <line x1="328" y1="146" x2="336" y2="146"/>
+    <line x1="328" y1="158" x2="336" y2="158"/>
+  </g>
+  <!-- Chip inner grid -->
+  <rect x="280" y="130" width="40" height="40" rx="2" fill="#1e3a8a" opacity="0.6"/>
+  <g stroke="#60a5fa" stroke-width="0.7" opacity="0.6">
+    <line x1="289" y1="130" x2="289" y2="170"/>
+    <line x1="298" y1="130" x2="298" y2="170"/>
+    <line x1="307" y1="130" x2="307" y2="170"/>
+    <line x1="316" y1="130" x2="316" y2="170"/>
+    <line x1="280" y1="139" x2="320" y2="139"/>
+    <line x1="280" y1="148" x2="320" y2="148"/>
+    <line x1="280" y1="157" x2="320" y2="157"/>
+    <line x1="280" y1="166" x2="320" y2="166"/>
+  </g>
+  <!-- Chip glow dot -->
+  <circle cx="300" cy="150" r="6" fill="#60a5fa" opacity="0.9"/>
+  <circle cx="300" cy="150" r="3" fill="white"/>
+
+  <!-- Data flow particles on traces -->
+  <circle cx="120" cy="120" r="2.5" fill="#93c5fd" opacity="0.9"/>
+  <circle cx="160" cy="100" r="2.5" fill="#93c5fd" opacity="0.9"/>
+  <circle cx="480" cy="110" r="2.5" fill="#93c5fd" opacity="0.9"/>
+  <circle cx="440" cy="90" r="2.5" fill="#93c5fd" opacity="0.9"/>
+  <circle cx="140" cy="190" r="2.5" fill="#93c5fd" opacity="0.9"/>
+  <circle cx="430" cy="170" r="2.5" fill="#93c5fd" opacity="0.9"/>
+
+  <!-- Floating data hexagons -->
+  <polygon points="520,50 535,42 550,50 550,66 535,74 520,66" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.5"/>
+  <polygon points="50,240 62,233 74,240 74,254 62,261 50,254" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.5"/>
+  <polygon points="530,240 542,233 554,240 554,254 542,261 530,254" fill="none" stroke="#60a5fa" stroke-width="1" opacity="0.4"/>
+
+  <!-- Binary particles scattered -->
+  <text x="30" y="30" font-size="9" fill="#3b82f6" opacity="0.4" font-family="monospace">01101</text>
+  <text x="490" y="285" font-size="9" fill="#3b82f6" opacity="0.4" font-family="monospace">10110</text>
+  <text x="15" y="270" font-size="9" fill="#60a5fa" opacity="0.3" font-family="monospace">1001</text>
+  <text x="530" y="30" font-size="9" fill="#60a5fa" opacity="0.3" font-family="monospace">0110</text>
+
+  <!-- Scan line effect -->
+  <rect x="0" y="0" width="600" height="300" fill="url(#circuit-glow)" opacity="0.03"/>
+</svg>
