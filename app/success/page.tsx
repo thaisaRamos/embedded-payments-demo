@@ -1,7 +1,27 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+
+const BASE_URLS: Record<string, string> = {
+  sandbox: 'https://api.sandbox.hit-pay.com',
+  production: 'https://api.hit-pay.com',
+};
+
+const API_KEYS: Record<string, { sandbox?: string; production?: string }> = {
+  SG: { sandbox: process.env.HITPAY_API_KEY_SG, production: process.env.HITPAY_API_KEY_SG_PRODUCTION },
+  MY: { sandbox: process.env.HITPAY_API_KEY_MY, production: process.env.HITPAY_API_KEY_MY_PRODUCTION },
+  PH: { sandbox: process.env.HITPAY_API_KEY_PH, production: process.env.HITPAY_API_KEY_PH_PRODUCTION },
+};
 
 interface Props {
-  searchParams: Promise<{ event?: string; amount?: string; method?: string; id?: string }>;
+  searchParams: Promise<{
+    event?: string;
+    amount?: string;
+    method?: string;
+    id?: string;
+    reference?: string;
+    region?: string;
+    env?: string;
+  }>;
 }
 
 export default async function SuccessPage({ searchParams }: Props) {
@@ -9,7 +29,36 @@ export default async function SuccessPage({ searchParams }: Props) {
   const eventName = params.event ?? 'your event';
   const amount = params.amount;
   const method = params.method;
-  const referenceId = params.id;
+  const region = params.region?.toUpperCase();
+
+  // `reference` is appended by HitPay when it redirects to redirect_url.
+  // `id` comes from our QR polling router.push (already verified client-side).
+  // When `reference` is present, verify the payment before showing success.
+  if (params.reference && region) {
+    const env = (params.env === 'production' ? 'production' : 'sandbox') as 'sandbox' | 'production';
+    const apiKey = API_KEYS[region]?.[env];
+    const baseUrl = BASE_URLS[env];
+
+    if (!apiKey) {
+      redirect('/cancelled');
+    }
+
+    try {
+      const res = await fetch(`${baseUrl}/v1/payment-requests/${params.reference}`, {
+        headers: { 'X-BUSINESS-API-KEY': apiKey },
+        cache: 'no-store',
+      });
+
+      if (!res.ok) redirect('/cancelled');
+
+      const data = await res.json();
+      if (data.status !== 'completed') redirect('/cancelled');
+    } catch {
+      redirect('/cancelled');
+    }
+  }
+
+  const referenceId = params.reference ?? params.id;
 
   return (
     <div className="min-h-screen bg-gray-50">

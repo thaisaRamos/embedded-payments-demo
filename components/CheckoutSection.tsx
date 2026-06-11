@@ -8,8 +8,6 @@ import { Event, Currency, formatAmountForApi, CURRENCY_SYMBOLS } from '@/lib/eve
 import { Environment, PaymentRequestResponse } from '@/lib/hitpay';
 import { PaymentMethodOption } from '@/lib/payment-methods';
 
-const environment = (process.env.NEXT_PUBLIC_HITPAY_ENV ?? 'sandbox') as Environment;
-
 const MAX_POLL = 60;
 const POLL_INTERVAL_MS = 3000;
 
@@ -18,6 +16,7 @@ const ALL_CURRENCIES: Currency[] = ['SGD', 'MYR', 'PHP'];
 interface CheckoutSectionProps {
   event: Event;
   currency: Currency;
+  environment: Environment;
   paymentMethods: PaymentMethodOption[];
   onCurrencyChange: (c: Currency) => void;
   onBackToEvents: () => void;
@@ -26,22 +25,26 @@ interface CheckoutSectionProps {
 export default function CheckoutSection({
   event,
   currency,
-  paymentMethods,
+  environment,
+  paymentMethods: allPaymentMethods,
   onCurrencyChange,
   onBackToEvents,
 }: CheckoutSectionProps) {
+  const paymentMethods = allPaymentMethods.filter(
+    (m) => !m.environments || m.environments.includes(environment)
+  );
+
   const [email, setEmail] = useState('');
   const [loadingKey, setLoadingKey] = useState<string | null>(null);
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [activeMethod, setActiveMethod] = useState<PaymentMethodOption | null>(null);
   const [activeResult, setActiveResult] = useState<PaymentRequestResponse | null>(null);
   const [pollCount, setPollCount] = useState(0);
-  const [paymentStatus, setPaymentStatus] = useState<'pending' | 'completed' | 'expired'>('pending');
+  const [paymentStatus, setPaymentStatus] = useState<'pending' | 'completed' | 'expired' | 'cancelled'>('pending');
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
   const pollRef = useRef(0);
-  const mockWindowRef = useRef<Window | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -81,16 +84,18 @@ export default function CheckoutSection({
         if (data.status === 'completed') {
           clearInterval(interval);
           setPaymentStatus('completed');
-          if (mockWindowRef.current && !mockWindowRef.current.closed) {
-            mockWindowRef.current.close();
-          }
           const params = new URLSearchParams({
             event: event.name,
             amount: displayAmount,
             method: activeMethod?.name ?? '',
             id: activeResult.id,
+            region: activeMethod?.apiKeyRegion ?? '',
+            env: environment,
           });
           router.push(`/success?${params.toString()}`);
+        } else if (['cancelled', 'failed', 'expired'].includes(data.status)) {
+          clearInterval(interval);
+          setPaymentStatus('cancelled');
         }
       } catch {
         // continue polling silently
@@ -122,7 +127,10 @@ export default function CheckoutSection({
           event: event.name,
           amount: displayAmount,
           method: method.name,
+          region: method.apiKeyRegion,
+          env: environment,
         }).toString()}`,
+        cancel_url: `${window.location.origin}/cancelled?${new URLSearchParams({ event: event.name }).toString()}`,
         api_key_region: method.apiKeyRegion,
         environment,
       }),
@@ -146,14 +154,14 @@ export default function CheckoutSection({
     setLoadingKey(key);
     setError(null);
     setActiveResult(null);
+    setPaymentStatus('pending');
+    setPollCount(0);
 
     try {
       const data = await callAPI(method);
       setActiveKey(key);
       setActiveMethod(method);
       setActiveResult(data);
-      setPaymentStatus('pending');
-      setPollCount(0);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
       setActiveKey(null);
@@ -239,14 +247,27 @@ export default function CheckoutSection({
                 result={activeResult}
                 method={m}
                 environment={environment}
+                displayAmount={displayAmount}
                 pollCount={pollCount}
                 paymentStatus={paymentStatus}
                 isRegenerating={isRegenerating}
                 onRegenerate={handleRegenerate}
-                onOpenMockWindow={(win) => { mockWindowRef.current = win; }}
               />
             ) : activeResult.direct_link ? (
-              <DirectLinkContent result={activeResult} method={m} environment={environment} onOpenWindow={(win) => { mockWindowRef.current = win; }} />
+              <DirectLinkContent
+                result={activeResult}
+                method={m}
+                environment={environment}
+                displayAmount={displayAmount}
+                onNavigate={(url) => {
+                  sessionStorage.setItem('hp_checkout_state', JSON.stringify({
+                    eventId: event.id,
+                    currency,
+                    environment,
+                  }));
+                  window.location.href = url;
+                }}
+              />
             ) : null}
           </div>
         )}
@@ -315,25 +336,23 @@ interface QRContentProps {
   result: PaymentRequestResponse;
   method: PaymentMethodOption;
   environment: Environment;
+  displayAmount: string;
   pollCount: number;
-  paymentStatus: 'pending' | 'completed' | 'expired';
+  paymentStatus: 'pending' | 'completed' | 'expired' | 'cancelled';
   isRegenerating: boolean;
   onRegenerate: () => void;
-  onOpenMockWindow: (win: Window | null) => void;
 }
 
 function QRContent({
   result,
   method,
   environment,
+  displayAmount,
   pollCount,
   paymentStatus,
   isRegenerating,
   onRegenerate,
-  onOpenMockWindow,
 }: QRContentProps) {
-  const symbol = CURRENCY_SYMBOLS[result.currency.toUpperCase() as keyof typeof CURRENCY_SYMBOLS] ?? '';
-  const displayAmount = `${symbol}${parseFloat(result.amount).toLocaleString()}`;
 
   return (
     <div className="p-5 flex flex-col items-center bg-white">
@@ -351,6 +370,20 @@ function QRContent({
           <span className="w-2 h-2 rounded-full bg-green-500" />
           Payment completed!
         </div>
+      ) : paymentStatus === 'cancelled' ? (
+        <div className="text-center">
+          <div className="flex items-center justify-center gap-2 bg-red-50 text-red-600 px-4 py-2 rounded-full text-sm font-semibold mb-3">
+            <span className="w-2 h-2 rounded-full bg-red-500" />
+            Payment cancelled
+          </div>
+          <button
+            onClick={onRegenerate}
+            disabled={isRegenerating}
+            className="text-sm text-indigo-600 hover:underline disabled:opacity-50"
+          >
+            {isRegenerating ? 'Generating…' : 'Try again'}
+          </button>
+        </div>
       ) : paymentStatus === 'expired' ? (
         <div className="text-center">
           <p className="text-sm text-gray-500 mb-2">QR code expired</p>
@@ -364,17 +397,16 @@ function QRContent({
         </div>
       ) : (
         <div className="text-center space-y-2.5 w-full">
-          <p className="text-sm text-gray-600 font-medium">Use your phone&apos;s camera to scan and pay.</p>
+          <p className="text-sm text-gray-600 font-medium">
+            {method.qrInstruction ?? 'Use your phone’s camera to scan and pay.'}
+          </p>
           <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             Waiting for payment… ({pollCount}/{MAX_POLL})
           </div>
           {environment === 'sandbox' && (
             <button
-              onClick={() => {
-                const win = window.open(result.qr_code_data!.qr_code, '_blank');
-                onOpenMockWindow(win);
-              }}
+              onClick={() => window.open(result.qr_code_data!.qr_code, '_blank')}
               className="block text-sm text-indigo-600 hover:underline font-medium w-full"
             >
               Simulate Scan
@@ -399,15 +431,15 @@ function DirectLinkContent({
   result,
   method,
   environment,
-  onOpenWindow,
+  displayAmount,
+  onNavigate,
 }: {
   result: PaymentRequestResponse;
   method: PaymentMethodOption;
   environment: Environment;
-  onOpenWindow: (win: Window | null) => void;
+  displayAmount: string;
+  onNavigate: (url: string) => void;
 }) {
-  const symbol = CURRENCY_SYMBOLS[result.currency.toUpperCase() as keyof typeof CURRENCY_SYMBOLS] ?? '';
-  const displayAmount = `${symbol}${parseFloat(result.amount).toLocaleString()}`;
   const isSandbox = environment === 'sandbox';
 
   return (
@@ -418,15 +450,12 @@ function DirectLinkContent({
       </div>
 
       <button
-        onClick={() => {
-          const win = window.open(result.direct_link!.direct_link_url, '_blank');
-          onOpenWindow(win);
-        }}
+        onClick={() => onNavigate(result.direct_link!.direct_link_url)}
         className="w-full flex items-center justify-center gap-2 bg-indigo-600 text-white font-semibold py-3 rounded-xl hover:bg-indigo-700 transition-colors"
       >
         Continue with {method.name}
         <svg className="w-4 h-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
         </svg>
       </button>
 

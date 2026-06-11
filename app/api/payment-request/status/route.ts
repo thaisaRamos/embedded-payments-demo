@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getPaymentRequestStatus, Environment } from '@/lib/hitpay';
 
-const API_KEYS: Record<string, string | undefined> = {
-  SG: process.env.HITPAY_API_KEY_SG,
-  MY: process.env.HITPAY_API_KEY_MY,
-  PH: process.env.HITPAY_API_KEY_PH,
-  ID: process.env.HITPAY_API_KEY_ID,
-  TH: process.env.HITPAY_API_KEY_TH,
+const API_KEYS: Record<string, { sandbox?: string; production?: string }> = {
+  SG: { sandbox: process.env.HITPAY_API_KEY_SG, production: process.env.HITPAY_API_KEY_SG_PRODUCTION },
+  MY: { sandbox: process.env.HITPAY_API_KEY_MY, production: process.env.HITPAY_API_KEY_MY_PRODUCTION },
+  PH: { sandbox: process.env.HITPAY_API_KEY_PH, production: process.env.HITPAY_API_KEY_PH_PRODUCTION },
+  ID: { sandbox: process.env.HITPAY_API_KEY_ID, production: process.env.HITPAY_API_KEY_ID_PRODUCTION },
+  TH: { sandbox: process.env.HITPAY_API_KEY_TH, production: process.env.HITPAY_API_KEY_TH_PRODUCTION },
 };
 
 export async function GET(req: NextRequest) {
@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ message: 'Missing id' }, { status: 400 });
   }
 
-  const apiKey = API_KEYS[region];
+  const apiKey = API_KEYS[region]?.[environment];
   if (!apiKey) {
     return NextResponse.json(
       { message: `API key not configured for region: ${region}` },

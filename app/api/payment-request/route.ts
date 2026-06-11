@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createPaymentRequest, Environment } from '@/lib/hitpay';
 
-const API_KEYS: Record<string, string | undefined> = {
-  SG: process.env.HITPAY_API_KEY_SG,
-  MY: process.env.HITPAY_API_KEY_MY,
-  PH: process.env.HITPAY_API_KEY_PH,
-  ID: process.env.HITPAY_API_KEY_ID,
-  TH: process.env.HITPAY_API_KEY_TH,
+const API_KEYS: Record<string, { sandbox?: string; production?: string }> = {
+  SG: { sandbox: process.env.HITPAY_API_KEY_SG, production: process.env.HITPAY_API_KEY_SG_PRODUCTION },
+  MY: { sandbox: process.env.HITPAY_API_KEY_MY, production: process.env.HITPAY_API_KEY_MY_PRODUCTION },
+  PH: { sandbox: process.env.HITPAY_API_KEY_PH, production: process.env.HITPAY_API_KEY_PH_PRODUCTION },
+  ID: { sandbox: process.env.HITPAY_API_KEY_ID, production: process.env.HITPAY_API_KEY_ID_PRODUCTION },
+  TH: { sandbox: process.env.HITPAY_API_KEY_TH, production: process.env.HITPAY_API_KEY_TH_PRODUCTION },
 };
 
 interface RouteBody {
@@ -18,6 +18,7 @@ interface RouteBody {
   generate_qr: boolean;
   generate_direct_link: boolean;
   redirect_url?: string;
+  cancel_url?: string;
   api_key_region: string;
   environment: Environment;
 }
@@ -25,10 +26,10 @@ interface RouteBody {
 export async function POST(req: NextRequest) {
   const body: RouteBody = await req.json();
 
-  const apiKey = API_KEYS[body.api_key_region];
+  const apiKey = API_KEYS[body.api_key_region]?.[body.environment];
   if (!apiKey) {
     return NextResponse.json(
-      { message: `API key not configured for region: ${body.api_key_region}` },
+      { message: `API key not configured for region: ${body.api_key_region} (${body.environment})` },
       { status: 500 }
     );
   }
@@ -44,6 +45,7 @@ export async function POST(req: NextRequest) {
         generateQr: body.generate_qr,
         generateDirectLink: body.generate_direct_link,
         redirectUrl: body.redirect_url,
+        cancelUrl: body.cancel_url,
       },
       apiKey,
       body.environment

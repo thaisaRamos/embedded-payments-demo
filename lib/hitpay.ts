@@ -14,6 +14,7 @@ export interface PaymentRequestParams {
   generateQr: boolean;
   generateDirectLink: boolean;
   redirectUrl?: string;
+  cancelUrl?: string;
 }
 
 export interface QrCodeData {
@@ -71,6 +72,7 @@ export async function createPaymentRequest(
     body.append('generate_direct_link', '1');
   }
   if (params.redirectUrl) body.append('redirect_url', params.redirectUrl);
+  if (params.cancelUrl) body.append('cancel_url', params.cancelUrl);
 
   const response = await fetch(`${BASE_URLS[environment]}/v1/payment-requests`, {
     method: 'POST',
