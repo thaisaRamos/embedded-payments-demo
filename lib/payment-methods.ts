@@ -19,6 +19,7 @@ export const PAYMENT_METHODS_BY_CURRENCY: Record<Currency, PaymentMethodOption[]
   SGD: [
     { id: 'paynow_online',    name: 'PayNow',           type: 'qr',          apiKeyRegion: 'SG', requiresRedirectUrl: false, icon: '/icons/paynow_online.svg',    qrInstruction: 'Please use your banking app to scan the QR code below to complete payment.'    },
     { id: 'shopee_pay',       name: 'ShopeePay',        type: 'qr',          apiKeyRegion: 'SG', requiresRedirectUrl: false, icon: '/icons/shopee_pay.png',       qrInstruction: 'Please use the ShopeePay app to scan the QR code below to complete payment.' },
+    { id: 'wechat_pay',       name: 'WeChat Pay',       type: 'qr',          apiKeyRegion: 'SG', requiresRedirectUrl: false, icon: '/icons/wechat_pay.svg',      qrInstruction: 'Please use WeChat Pay to scan the QR code below to complete payment.' },
     { id: 'upi_qr',           name: 'UPI',              type: 'qr',          apiKeyRegion: 'SG', requiresRedirectUrl: false, icon: '/icons/upi_qr.svg',           qrInstruction: 'Please use any UPI app to scan the QR code below to complete payment.',       environments: ['production'] },
     { id: 'grabpay_direct',   name: 'GrabPay',          type: 'direct_link', apiKeyRegion: 'SG', requiresRedirectUrl: true,  icon: '/icons/grabpay_direct.png'   },
     { id: 'grabpay_paylater', name: 'GrabPay Later',    type: 'direct_link', apiKeyRegion: 'SG', requiresRedirectUrl: true,  icon: '/icons/grabpay_paylater.png',                                                                                                    environments: ['production'] },
@@ -27,11 +28,13 @@ export const PAYMENT_METHODS_BY_CURRENCY: Record<Currency, PaymentMethodOption[]
   MYR: [
     { id: 'duitnow',          name: 'DuitNow',          type: 'qr',          apiKeyRegion: 'MY', requiresRedirectUrl: false, icon: '/icons/duitnow.png',          qrInstruction: 'Please use your banking app to scan the QR code below to complete payment.'         },
     { id: 'shopee_pay',       name: 'ShopeePay',        type: 'qr',          apiKeyRegion: 'MY', requiresRedirectUrl: false, icon: '/icons/shopee_pay.png',       qrInstruction: 'Please use the ShopeePay app to scan the QR code below to complete payment.'      },
+    { id: 'wechat_pay',       name: 'WeChat Pay',       type: 'qr',          apiKeyRegion: 'MY', requiresRedirectUrl: false, icon: '/icons/wechat_pay.svg',      qrInstruction: 'Please use WeChat Pay to scan the QR code below to complete payment.' },
     { id: 'touch_n_go',       name: "Touch 'n Go",      type: 'direct_link', apiKeyRegion: 'MY', requiresRedirectUrl: true,  icon: '/icons/touch_n_go.svg'       },
     { id: 'grabpay_direct',   name: 'GrabPay',          type: 'direct_link', apiKeyRegion: 'MY', requiresRedirectUrl: true,  icon: '/icons/grabpay_direct.png'   },
   ],
   PHP: [
     { id: 'qrph_netbank',     name: 'QR Ph',            type: 'qr',          apiKeyRegion: 'PH', requiresRedirectUrl: false, icon: '/icons/qrph_netbank.png',     qrInstruction: 'Please use your banking app to scan the QR code below to complete payment.',   environments: ['production'] },
+    { id: 'wechat_pay',       name: 'WeChat Pay',       type: 'qr',          apiKeyRegion: 'PH', requiresRedirectUrl: false, icon: '/icons/wechat_pay.svg',      qrInstruction: 'Please use WeChat Pay to scan the QR code below to complete payment.' },
     { id: 'grabpay_direct',   name: 'GrabPay',          type: 'direct_link', apiKeyRegion: 'PH', requiresRedirectUrl: true,  icon: '/icons/grabpay_direct.png'   },
     { id: 'gcash',            name: 'GCash',            type: 'direct_link', apiKeyRegion: 'PH', requiresRedirectUrl: true,  icon: '/icons/gcash.svg',                                                                                                                environments: ['production'] },
   ],
