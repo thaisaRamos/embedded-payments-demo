@@ -48,7 +48,7 @@ export default function EventCard({ event, currency, isSelected, onSelect }: Eve
           </span>
           <button
             onClick={() => onSelect(event)}
-            className="text-sm bg-indigo-600 text-white px-3 py-1.5 rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl transition-colors text-sm px-4"
           >
             Get Tickets
           </button>
